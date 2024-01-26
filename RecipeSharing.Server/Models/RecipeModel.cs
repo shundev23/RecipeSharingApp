@@ -8,8 +8,10 @@ namespace RecipeSharing.Server.Models
         public int Id { get; set; }
 
         [Required]
-        public string Title { get; set; }
-        public string Description { get; set; }
+        public string? Title { get; set; }
+        public string? Description { get; set; }
+        public string? Ingredient { get; set; }
+        public string? Instructions { get; set; }
         public DateTime CreateDateTime { get; set; }
     }
 }
