@@ -5,6 +5,7 @@ namespace RecipeSharing.Server.Models
 {
     public class RecipeModel
     {
+        [Key]
         public int Id { get; set; }
 
         [Required]

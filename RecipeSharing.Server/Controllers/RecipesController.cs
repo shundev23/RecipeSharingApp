@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RecipeSharing.Server.Data;
 using RecipeSharing.Server.Models;
@@ -19,12 +20,14 @@ namespace RecipeSharing.Server.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<RecipeModel>>> GetRecipe()
         {
             return await _context.Recipes.ToListAsync();
         }
 
         [HttpGet("id")]
+        [AllowAnonymous]
         public async Task<ActionResult<RecipeModel>> GetRecipe(int id)
         {
             var recipe = await _context.Recipes.FindAsync(id);

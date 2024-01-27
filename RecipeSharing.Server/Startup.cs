@@ -6,6 +6,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore.SqlServer;
 using RecipeSharing.Server.Data;
 using Microsoft.EntityFrameworkCore;
+using RecipeSharing.Server.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace RecipeSharing.Server
 {
@@ -26,8 +28,23 @@ namespace RecipeSharing.Server
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 
+
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
+
             // 例：MVCサービスを追加
             services.AddControllersWithViews();
+
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(builder =>
+                {
+                    builder.WithOrigins("http://localhost:3000")
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
+                });
+            });
         }
 
         // このメソッドは、HTTPリクエストパイプラインを構成するために使われます。
@@ -50,6 +67,8 @@ namespace RecipeSharing.Server
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseCors();
 
             app.UseEndpoints(endpoints =>
             {
